@@ -1,15 +1,26 @@
 class Game {
-  constructor() {
-    this.food = new Food(100, 100);
+  constructor(left_gap, top_gap) {
+    this.food = new Food(500, 500);
     this.snake = new Snake();
     this.score = 0;
+    this.left_gap = left_gap;
+    this.top_gap = top_gap;
   }
 
   update() {
-    this.snake.update();
+    this.snake.update(this.left_gap, this.top_gap);
     if (this.eat()) {
       this.food.update();
     }
+  }
+
+  lose_game() {
+    if (this.snake.lose_game()) {
+      delete this.snake;
+      delete this.food;
+      return true;
+    }
+    return false;
   }
 
   eat() {
@@ -36,6 +47,7 @@ class Game {
   }
 }
 
+/////************//////
 class Snake {
   constructor() {
     this.snake_body = [];
@@ -52,6 +64,17 @@ class Snake {
     this.last_spot_y = this.snake_body[2].y;
   }
 
+  lose_game() {
+    let head_x = this.snake_body[0].x;
+    let head_y = this.snake_body[0].y;
+
+    for (let i = 1; i < this.snake_body.length; i++) {
+      if (head_x == this.snake_body[i].x && head_y == this.snake_body[i].y)
+        return true;
+    }
+    return false;
+  }
+
   eat(x, y) {
     if (this.snake_body[0].x == x && this.snake_body[0].y == y) return true;
     return false;
@@ -64,7 +87,7 @@ class Snake {
     );
   }
 
-  update() {
+  update(left_gap, top_gap) {
     // update last snake square
     this.last_spot_x = this.snake_body[this.snake_body.length - 1].x;
     this.last_spot_y = this.snake_body[this.snake_body.length - 1].y;
@@ -76,6 +99,14 @@ class Snake {
     }
     this.snake_body[0].x += this.x_speed * this.square_size;
     this.snake_body[0].y += this.y_speed * this.square_size;
+
+    if (this.snake_body[0].x > width) this.snake_body[0].x = 0;
+    else if (this.snake_body[0].x < 0)
+      this.snake_body[0].x = width - this.square_size;
+
+    if (this.snake_body[0].y > height) this.snake_body[0].y = 0;
+    else if (this.snake_body[0].y < 0)
+      this.snake_body[0].y = height - this.square_size;
   }
 
   show() {
@@ -91,6 +122,7 @@ class Snake {
   }
 }
 
+////////////////////
 class Food {
   constructor(x, y) {
     this.x = x;

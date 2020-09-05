@@ -1,5 +1,3 @@
-let snake;
-let food;
 let game;
 
 function setup() {
@@ -13,15 +11,15 @@ function setup() {
   cnv.id("game_grid");
   cnv.position(left_gap, top_gap);
 
-  //snake = new Snake(left_gap, top_gap, left_gap + 1200, top_gap + 800);
-  //food = new Food();
-  game = new Game();
+  game = new Game(left_gap, top_gap);
 }
 
 function draw() {
   background(10, 10, 25);
   game.update();
-  game.show();
+  if (game.lose_game()) {
+    background(255, 255, 255);
+  } else game.show();
 }
 
 function keyPressed() {
