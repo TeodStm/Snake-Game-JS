@@ -16,8 +16,8 @@ class Game {
 
   lose_game() {
     if (this.snake.lose_game()) {
-      delete this.snake;
-      delete this.food;
+      //delete this.snake;
+      //delete this.food;
       return true;
     }
     return false;
@@ -26,6 +26,7 @@ class Game {
   eat() {
     if (this.snake.eat(this.food.x, this.food.y)) {
       this.snake.grow();
+      this.score += 1;
       return true;
     }
     return false;
@@ -110,6 +111,7 @@ class Snake {
   }
 
   show() {
+    noStroke();
     fill(17, 230, 237);
     for (let i = 0; i < this.snake_body.length; i++) {
       rect(
