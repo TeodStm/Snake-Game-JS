@@ -1,6 +1,6 @@
 class Game {
   constructor(left_gap, top_gap) {
-    this.food = new Food(500, 500);
+    this.food = new Food(100, 100);
     this.snake = new Snake();
     this.score = 0;
     this.left_gap = left_gap;
