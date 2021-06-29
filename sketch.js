@@ -8,6 +8,12 @@ let end_game = false;
 let fps = 10;
 let fps_updated = true;
 
+
+function restart(){
+	end_game = false;
+	setup();
+}
+
 function setup() {
   //canvas_width = 1000;
   //canvas_height = 700;
@@ -18,7 +24,7 @@ function setup() {
   console.log(window.screen.height);
   let left_gap = (window.screen.width - canvas_width) / 2;
   //let top_gap = 40;
-  let top_gap = Math.floor((window.screen.height - canvas_height) / 3);
+  let top_gap = Math.floor((window.screen.height - canvas_height) / 3) + 30;
   frameRate(fps);
 
   let cnv = createCanvas(canvas_width, canvas_height);
@@ -32,6 +38,10 @@ function setup() {
   textAlign(CENTER, CENTER);
 
   game = new Game(left_gap, top_gap);
+  let new_game_btn = document.getElementById("new_game");
+  new_game_btn.style.marginLeft = window.screen.width / 2 - (new_game.offsetWidth / 2);
+  new_game_btn.style.marginTop = top_gap-new_game.offsetHeight - 10;
+ 
 }
 
 function draw() {
